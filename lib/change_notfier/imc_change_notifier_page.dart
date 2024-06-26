@@ -1,35 +1,26 @@
 // ignore_for_file: file_names
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_default_state_manager/change_notfier/imc_change_notifier_controller.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
 import '../widgets/imc_gouge.dart';
 
-class ImcValueNotifier extends StatefulWidget {
-  const ImcValueNotifier({super.key});
+class ImcChangeNotifier extends StatefulWidget {
+  const ImcChangeNotifier({super.key});
 
   @override
-  State<ImcValueNotifier> createState() => _ImcValueNotifierState();
+  State<ImcChangeNotifier> createState() => _ImcChangeNotifierState();
 }
 
-class _ImcValueNotifierState extends State<ImcValueNotifier> {
+class _ImcChangeNotifierState extends State<ImcChangeNotifier> {
+  final controller = ImcChangeNotifierController();
+
   final MoneyMaskedTextController _controllerPeso =
       MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   final MoneyMaskedTextController _controllerAltura =
       MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   final formKey = GlobalKey<FormState>();
-  var imc = ValueNotifier(0.0);
-
-  Future<void> _calculaIMC({
-    required double peso,
-    required double altura,
-  }) async {
-    imc.value = 0;
-    await Future.delayed(const Duration(seconds: 1));
-    imc.value = peso / pow(altura, 2);
-  }
 
   @override
   void dispose() {
@@ -42,7 +33,7 @@ class _ImcValueNotifierState extends State<ImcValueNotifier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('IMC ValueNotifier'),
+        title: const Text('IMC ImcChangeNotifier'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,12 +42,11 @@ class _ImcValueNotifierState extends State<ImcValueNotifier> {
             key: formKey,
             child: Column(
               children: [
-                ValueListenableBuilder<double>(
-                  valueListenable: imc,
-                  builder: (_, imcVale, __) {
-                    return ImcGouge(imc: imcVale);
-                  },
-                ),
+                AnimatedBuilder(
+                    animation: controller,
+                    builder: (context, child) {
+                      return ImcGouge(imc: controller.imc);
+                    }),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _controllerPeso,
@@ -99,7 +89,7 @@ class _ImcValueNotifierState extends State<ImcValueNotifier> {
                         double altura =
                             formatter.parse(_controllerAltura.text) as double;
 
-                        _calculaIMC(peso: peso, altura: altura);
+                        controller.calculaIMC(peso: peso, altura: altura);
                       }
                     },
                     child: const Text('Calcular IMC'))

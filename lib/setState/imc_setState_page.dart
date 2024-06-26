@@ -67,6 +67,7 @@ class _ImcSetStateState extends State<ImcSetState> {
                     if (value == null || value.isEmpty) {
                       return 'Peso obrigatorio';
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -81,6 +82,7 @@ class _ImcSetStateState extends State<ImcSetState> {
                     if (value == null || value.isEmpty) {
                       return 'Altura obrigatorio';
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 20),
