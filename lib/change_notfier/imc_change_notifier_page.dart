@@ -33,7 +33,7 @@ class _ImcChangeNotifierState extends State<ImcChangeNotifier> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('IMC ImcChangeNotifier'),
+        title: const Center(child: Text('Calcule seu IMC')),
       ),
       body: SingleChildScrollView(
         child: Padding(
