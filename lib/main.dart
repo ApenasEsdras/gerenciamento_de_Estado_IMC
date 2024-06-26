@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'home/home_page.dart';
+import 'change_notfier/imc_change_notifier_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const ImcChangeNotifier(),
     );
   }
 }
